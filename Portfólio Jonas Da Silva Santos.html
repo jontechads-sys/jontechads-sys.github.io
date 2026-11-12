@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jonas Da Silva Santos | Desenvolvedor de Software</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        github: {
+                            bg: '#0d1117',
+                            card: '#161b22',
+                            border: '#30363d',
+                            hover: '#21262d',
+                            blue: '#58a6ff',
+                            green: '#2ea043',
+                            greenBright: '#3fb950',
+                            purple: '#bc8cff',
+                            text: '#c9d1d9',
+                            muted: '#8b949e',
+                            lightBg: '#f6f8fa',
+                            lightCard: '#ffffff',
+                            lightBorder: '#d0d7de',
+                            lightText: '#1F2328'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+        .light ::-webkit-scrollbar-track {
+            background: #f6f8fa;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484f58;
+        }
+
+        /* Background Grid Pattern */
+        .bg-grid-pattern {
+            background-size: 30px 30px;
+            background-image: radial-gradient(circle, rgba(88, 166, 255, 0.07) 1px, transparent 1px);
+        }
+        .light .bg-grid-pattern {
+            background-image: radial-gradient(circle, rgba(31, 35, 40, 0.07) 1px, transparent 1px);
+        }
+
+        /* Glow animation */
+        .glow-card {
+            position: relative;
+        }
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 1rem;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(46, 160, 67, 0.4), rgba(88, 166, 255, 0.4), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #58a6ff 0%, #bc8cff 50%, #3fb950 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Light Theme Overrides */
+        .light body {
+            background-color: #f6f8fa !important;
+            color: #1F2328 !important;
+        }
+        .light .theme-bg-card {
+            background-color: #ffffff !important;
+            border-color: #d0d7de !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .light .theme-text-muted {
+            color: #656d76 !important;
+        }
+        .light .theme-text-main {
+            color: #1F2328 !important;
+        }
+        .light .theme-border {
+            border-color: #d0d7de !important;
+        }
+        .light .theme-bg-hover:hover {
+            background-color: #f3f4f6 !important;
+        }
+        .light .theme-badge {
+            background-color: #eff3f8 !important;
+            color: #0969da !important;
+            border-color: #d0d7de !important;
+        }
+    </style>
+</head>
+<body class="bg-github-bg text-github-text font-sans antialiased transition-colors duration-300 min-h-screen flex flex-col selection:bg-github-blue selection:text-white bg-grid-pattern">
+
+    <!-- NAV BAR & TOGGLE -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-github-bg/80 light:bg-github-lightBg/80 border-b border-github-border theme-border transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 font-mono font-bold text-lg text-white theme-text-main hover:opacity-80 transition-opacity">
+                <span class="text-github-blue"><i class="fa-solid me-1 fa-terminal"></i></span>
+                jontechads<span class="text-github-greenBright">-sys</span>
+            </a>
+
+            <div class="flex items-center gap-4 sm:gap-6 text-sm font-medium">
+                <a href="#sobre" class="hidden sm:block text-github-muted hover:text-github-blue theme-text-muted transition-colors">Sobre</a>
+                <a href="#projeto-destaque" class="hidden sm:block text-github-muted hover:text-github-blue theme-text-muted transition-colors">Projeto Destaque</a>
+                <a href="#stack" class="hidden sm:block text-github-muted hover:text-github-blue theme-text-muted transition-colors">Stack</a>
+                <a href="#trajetoria" class="hidden sm:block text-github-muted hover:text-github-blue theme-text-muted transition-colors">Trajetória</a>
+
+                <!-- Theme Switcher Button -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2 rounded-lg bg-github-card light:bg-gray-200 border border-github-border theme-border hover:border-github-blue transition-all flex items-center justify-center text-github-blue" title="Alternar Tema (Claro / Escuro)">
+                    <i id="themeIcon" class="fa-solid fa-sun text-amber-400 text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+        <!-- 1. HERO SECTION -->
+        <section class="relative pt-6 pb-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-github-green/10 text-github-greenBright border border-github-green/30">
+                        <span class="w-2 h-2 rounded-full bg-github-greenBright animate-pulse"></span>
+                        Disponível para novos projetos & oportunidades
+                    </div>
+
+                    <div class="space-y-2">
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white theme-text-main">
+                            Jonas Da Silva Santos
+                        </h1>
+                        <p class="text-xl sm:text-2xl font-mono font-medium text-gradient">
+                            Desenvolvedor de Software
+                        </p>
+                    </div>
+
+                    <p class="text-base sm:text-lg text-github-muted theme-text-muted font-sans max-w-2xl leading-relaxed">
+                        C# • .NET • Flutter • Docker • Arquitetura de Software (DDD / IoC)
+                    </p>
+
+                    <!-- Info badges -->
+                    <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm font-mono text-github-muted theme-text-muted">
+                        <div class="flex items-center gap-2 bg-github-card theme-bg-card px-3 py-1.5 rounded-lg border border-github-border theme-border">
+                            <i class="fa-solid fa-location-dot text-rose-400"></i>
+                            <span>Taboão da Serra, São Paulo</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-github-card theme-bg-card px-3 py-1.5 rounded-lg border border-github-border theme-border">
+                            <i class="fa-solid fa-graduation-cap text-github-blue"></i>
+                            <span>Engenharia de Software (Graduando)</span>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="https://github.com/jontechads-sys/painel-de-mobilidade" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm bg-github-green text-white hover:bg-emerald-600 transition-all shadow-lg shadow-github-green/20">
+                            <i class="fa-brands fa-github text-lg"></i>
+                            Ver Projeto no GitHub
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
+                        </a>
+
+                        <a href="mailto:jontechads@gmail.com" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm bg-github-card theme-bg-card border border-github-border theme-border hover:border-github-blue text-white theme-text-main hover:text-github-blue transition-all">
+                            <i class="fa-regular fa-envelope text-lg text-github-blue"></i>
+                            Entrar em Contato
+                        </a>
+
+                        <button onclick="copyToClipboard('jontechads@gmail.com')" class="inline-flex items-center justify-center p-3 rounded-lg bg-github-card theme-bg-card border border-github-border theme-border hover:border-github-blue text-github-muted hover:text-github-blue transition-all" title="Copiar e-mail">
+                            <i class="fa-regular fa-copy text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Card Widget -->
+                <div class="lg:col-span-4">
+                    <div class="bg-github-card theme-bg-card rounded-xl border border-github-border theme-border p-4 font-mono text-xs shadow-2xl relative overflow-hidden">
+                        <div class="flex items-center justify-between pb-3 mb-3 border-b border-github-border theme-border">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                            </div>
+                            <span class="text-github-muted theme-text-muted text-[11px]">DeveloperProfile.cs</span>
+                        </div>
+                        <pre class="text-github-text theme-text-main overflow-x-auto leading-relaxed"><code><span class="text-purple-400">public class</span> <span class="text-yellow-300">Developer</span> 
+{
+  <span class="text-purple-400">public string</span> Name => <span class="text-emerald-400">"Jonas Santos"</span>;
+  <span class="text-purple-400">public string</span> Role => <span class="text-emerald-400">"Backend & Mobile"</span>;
+  <span class="text-purple-400">public string[]</span> PrimaryStack => [
+    <span class="text-emerald-400">"C#"</span>, <span class="text-emerald-400">".NET Core"</span>, 
+    <span class="text-emerald-400">"Flutter"</span>, <span class="text-emerald-400">"Docker"</span>, 
+    <span class="text-emerald-400">"MySQL"</span>
+  ];
+  <span class="text-purple-400">public bool</span> MentoredBy => <span class="text-github-blue">RenatoDota</span>;
+  <span class="text-purple-400">public bool</span> ContinuousGrowth => <span class="text-amber-400">true</span>;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SOBRE MIM -->
+        <section id="sobre" class="scroll-mt-20">
+            <div class="bg-github-card theme-bg-card rounded-2xl p-6 sm:p-8 border border-github-border theme-border relative overflow-hidden">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="p-2.5 rounded-lg bg-github-blue/10 text-github-blue">
+                        <i class="fa-solid fa-user-gear text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white theme-text-main">Sobre Mim</h2>
+                </div>
+
+                <div class="text-github-text theme-text-muted leading-relaxed space-y-4 text-base sm:text-lg">
+                    <p>
+                        Desenvolvedor de Software com foco na construção de aplicações escaláveis, bem documentadas e orientadas às melhores práticas de engenharia de software. Possuo experiência prática no desenvolvimento de <strong>APIs backend robustas em C# e .NET</strong> e criação de <strong>interfaces móveis modernas em Flutter</strong>, cobrindo todo o ciclo do desenvolvimento: desde a modelagem arquitetural e banco de dados relacional até a containerização de ambientes com <strong>Docker</strong>.
+                    </p>
+                    <p>
+                        Atualmente graduando em <strong>Engenharia de Software</strong>, combino alta disciplina operacional com aprendizado contínuo acelerado por mentoria técnica sênior. Valorizo o código limpo, a clareza arquitetural, a cultura de testes e registros detalhados de decisões técnicas (ADRs).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PROJETO EM DESTAQUE: PAINEL DE MOBILIDADE URBANA -->
+        <section id="projeto-destaque" class="scroll-mt-20 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-mono font-semibold uppercase tracking-wider text-github-blue">Destaque Principal</span>
+                    <h2 class="text-3xl font-extrabold text-white theme-text-main">Painel de Mobilidade Urbana</h2>
+                </div>
+                
+                <a href="https://github.com/jontechads-sys/painel-de-mobilidade" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-github-blue hover:underline">
+                    Ver repositório completo <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Card Principal com Efeito Glow -->
+            <div class="glow-card bg-github-card theme-bg-card rounded-2xl border border-github-border theme-border p-6 sm:p-8 space-y-8 shadow-2xl">
+                
+                <!-- Badge & Header do Card -->
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-github-border theme-border pb-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-github-greenBright border border-emerald-500/20">
+                        <i class="fa-solid fa-award"></i>
+                        Desenvolvimento Ponta a Ponta • Sob Mentoria Técnica de Renato Dota
+                    </div>
+
+                    <span class="text-xs font-mono text-github-muted theme-text-muted flex items-center gap-1.5">
+                        <i class="fa-solid fa-code-branch text-github-blue"></i>
+                        main / production-ready
+                    </span>
+                </div>
+
+                <!-- O Problema e a Solução -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2 bg-github-bg/50 light:bg-gray-50 p-5 rounded-xl border border-github-border/60 theme-border">
+                        <h3 class="text-base font-bold text-rose-400 flex items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation"></i> O Problema
+                        </h3>
+                        <p class="text-sm text-github-muted theme-text-muted leading-relaxed">
+                            Dados de transporte e mobilidade urbana frequentemente encontram-se fragmentados, não estruturados e de difícil interpretação visual, impedindo uma tomada de decisão rápida e análises operacionais precisas.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2 bg-github-bg/50 light:bg-gray-50 p-5 rounded-xl border border-github-border/60 theme-border">
+                        <h3 class="text-base font-bold text-github-greenBright flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i> A Solução Desenvolvida
+                        </h3>
+                        <p class="text-sm text-github-muted theme-text-muted leading-relaxed">
+                            Aplicação completa criada do zero para centralizar, estruturar e exibir indicadores cruciais de mobilidade urbana em tempo real, com alta confiabilidade de dados e arquitetura preparada para escala.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pilares de Arquitetura e Engenharia -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-white theme-text-main flex items-center gap-2">
+                        <i class="fa-solid fa-sitemap text-github-purple"></i> Pilares de Arquitetura & Engenharia de Software
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Pillar 1 -->
+                        <div class="p-4 rounded-xl bg-github-bg/40 light:bg-white border border-github-border theme-border space-y-2 hover:border-github-blue transition-colors">
+                            <div class="flex items-center gap-2 font-semibold text-github-blue text-sm">
+                                <i class="fa-solid fa-book-bookmark"></i> Documentação de Arquitetura & Domínio
+                            </div>
+                            <p class="text-xs text-github-muted theme-text-muted leading-relaxed">
+                                Estruturação dedicada de registros técnicos (<strong>Decisoes.md</strong> / ADRs), padronização de termos de negócio em <strong>Glossario.md</strong> e validações em <strong>Evidencias.md</strong> para auditoria e fácil onboarding.
+                            </p>
+                        </div>
+
+                        <!-- Pillar 2 -->
+                        <div class="p-4 rounded-xl bg-github-bg/40 light:bg-white border border-github-border theme-border space-y-2 hover:border-github-blue transition-colors">
+                            <div class="flex items-center gap-2 font-semibold text-github-purple text-sm">
+                                <i class="fa-solid fa-cubes"></i> Arquitetura Desacoplada (DDD & IoC)
+                            </div>
+                            <p class="text-xs text-github-muted theme-text-muted leading-relaxed">
+                                Aplicação rigorosa dos princípios de <strong>Domain-Driven Design (DDD)</strong> e <strong>Inversão de Controle (IoC)</strong> para isolamento total entre regras de negócio, persistência de dados e interfaces.
+                            </p>
+                        </div>
+
+                        <!-- Pillar 3 -->
+                        <div class="p-4 rounded-xl bg-github-bg/40 light:bg-white border border-github-border theme-border space-y-2 hover:border-github-blue transition-colors">
+                            <div class="flex items-center gap-2 font-semibold text-amber-400 text-sm">
+                                <i class="fa-solid fa-database"></i> Persistência & Containerização
+                            </div>
+                            <p class="text-xs text-github-muted theme-text-muted leading-relaxed">
+                                Modelagem relacional otimizada utilizando <strong>MySQL</strong> e <strong>Entity Framework Core</strong> com controle de migrations versionado, além de empacotamento completo via <strong>Docker</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Pillar 4 -->
+                        <div class="p-4 rounded-xl bg-github-bg/40 light:bg-white border border-github-border theme-border space-y-2 hover:border-github-blue transition-colors">
+                            <div class="flex items-center gap-2 font-semibold text-github-greenBright text-sm">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Experiência Mobile & Visualização
+                            </div>
+                            <p class="text-xs text-github-muted theme-text-muted leading-relaxed">
+                                Interface móvel intuitiva construída em <strong>Flutter (Dart)</strong>, com suporte a temas dinâmicos (incluindo Dark Mode de alta legibilidade) e testes extensivos em emuladores Android.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Tags -->
+                <div class="pt-2 border-t border-github-border theme-border flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-mono font-semibold text-github-muted theme-text-muted me-2">Tech Stack do Projeto:</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20">C#</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-purple-500/10 text-purple-400 border border-purple-500/20">.NET Core</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Flutter</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-sky-500/10 text-sky-400 border border-sky-500/20">Dart</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20">MySQL</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-600/10 text-blue-300 border border-blue-600/20">Docker</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">EF Core</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-violet-500/10 text-violet-400 border border-violet-500/20">DDD</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-rose-500/10 text-rose-400 border border-rose-500/20">ADRs</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. STACK TÉCNICA & COMPETÊNCIAS -->
+        <section id="stack" class="scroll-mt-20 space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-lg bg-github-purple/10 text-github-purple">
+                    <i class="fa-solid fa-layer-group text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white theme-text-main">Stack Técnica & Competências</h2>
+                    <p class="text-sm text-github-muted theme-text-muted">Tecnologias, linguagens e ferramentas utilizadas no dia a dia</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Category 1: Backend -->
+                <div class="bg-github-card theme-bg-card rounded-xl p-5 border border-github-border theme-border space-y-4 hover:border-github-blue transition-all">
+                    <div class="flex items-center gap-3 text-github-blue border-b border-github-border theme-border pb-3">
+                        <i class="fa-solid fa-server text-lg"></i>
+                        <h3 class="font-bold text-base text-white theme-text-main">Backend & APIs</h3>
+                    </div>
+                    <ul class="space-y-2.5 text-xs font-mono text-github-text theme-text-muted">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-blue"></i> C# / .NET Core</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-blue"></i> Entity Framework Core</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-blue"></i> APIs RESTful</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-blue"></i> DDD (Domain-Driven)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-blue"></i> Inversão de Controle (IoC)</li>
+                    </ul>
+                </div>
+
+                <!-- Category 2: Frontend & Mobile -->
+                <div class="bg-github-card theme-bg-card rounded-xl p-5 border border-github-border theme-border space-y-4 hover:border-github-blue transition-all">
+                    <div class="flex items-center gap-3 text-cyan-400 border-b border-github-border theme-border pb-3">
+                        <i class="fa-solid fa-mobile-screen text-lg"></i>
+                        <h3 class="font-bold text-base text-white theme-text-main">Frontend & Mobile</h3>
+                    </div>
+                    <ul class="space-y-2.5 text-xs font-mono text-github-text theme-text-muted">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyan-400"></i> Flutter & Dart</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyan-400"></i> HTML5 Semântico</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyan-400"></i> CSS3 / Flexbox / Grid</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyan-400"></i> Dark Mode UI & Acessibilidade</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyan-400"></i> Layouts Responsivos</li>
+                    </ul>
+                </div>
+
+                <!-- Category 3: Database & DevOps -->
+                <div class="bg-github-card theme-bg-card rounded-xl p-5 border border-github-border theme-border space-y-4 hover:border-github-blue transition-all">
+                    <div class="flex items-center gap-3 text-amber-400 border-b border-github-border theme-border pb-3">
+                        <i class="fa-solid fa-database text-lg"></i>
+                        <h3 class="font-bold text-base text-white theme-text-main">Banco & DevOps</h3>
+                    </div>
+                    <ul class="space-y-2.5 text-xs font-mono text-github-text theme-text-muted">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-amber-400"></i> MySQL</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-amber-400"></i> Docker Containerization</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-amber-400"></i> Git & GitHub Workflows</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-amber-400"></i> Android Studio Emulators</li>
+                    </ul>
+                </div>
+
+                <!-- Category 4: Documentation & Mgmt -->
+                <div class="bg-github-card theme-bg-card rounded-xl p-5 border border-github-border theme-border space-y-4 hover:border-github-blue transition-all">
+                    <div class="flex items-center gap-3 text-github-greenBright border-b border-github-border theme-border pb-3">
+                        <i class="fa-solid fa-file-code text-lg"></i>
+                        <h3 class="font-bold text-base text-white theme-text-main">Docs & Gestão</h3>
+                    </div>
+                    <ul class="space-y-2.5 text-xs font-mono text-github-text theme-text-muted">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-greenBright"></i> Decisões Arquiteturais (ADRs)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-greenBright"></i> Glossário de Domínio</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-greenBright"></i> Evidências de Testes</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-github-greenBright"></i> Microsoft Excel Avançado</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. EXPERIÊNCIA & TRAJETÓRIA -->
+        <section id="trajetoria" class="scroll-mt-20 space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-lg bg-github-green/10 text-github-greenBright">
+                    <i class="fa-solid fa-briefcase text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white theme-text-main">Experiência & Trajetória</h2>
+                    <p class="text-sm text-github-muted theme-text-muted">Histórico profissional e formação acadêmica</p>
+                </div>
+            </div>
+
+            <div class="relative border-l-2 border-github-border theme-border ml-3 sm:ml-4 pl-6 sm:pl-8 space-y-8">
+                
+                <!-- Timeline Item 1 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[41px] top-1 w-4 h-4 rounded-full bg-github-blue border-4 border-github-bg theme-border group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-github-card theme-bg-card rounded-xl p-5 border border-github-border theme-border space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h3 class="font-bold text-lg text-white theme-text-main">Desenvolvedor Júnior</h3>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-github-blue/10 text-github-blue font-semibold">Rautaki Tecnologia</span>
+                        </div>
+                        <p class="text-xs font-mono text-github-muted theme-text-muted">Atuação em projetos mobile e backend</p>
+                        <p class="text-sm text-github-text theme-text-muted leading-relaxed pt-2">
+                            Desenvolvimento da interface de login mobile para o aplicativo <strong>CET MOB</strong> utilizando Flutter. Ajustes avançados de acessibilidade e visibilidade em Dark Mode, testes com emuladores Android e apoio na infraestrutura com deploy de APIs utilizando Docker.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[41px] top-1 w-4 h-4 rounded-full bg-amber-400 border-4 border-github-bg theme-border group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-github-card theme-bg-card rounded-xl p-5 border border-github-border theme-border space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h3 class="font-bold text-lg text-white theme-text-main">Operações Logísticas & Gestão Administrativa</h3>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-amber-400/10 text-amber-400 font-semibold">Amazon & Outros</span>
+                        </div>
+                        <p class="text-xs font-mono text-github-muted theme-text-muted">Gestão de Processos e Dados Operacionais</p>
+                        <p class="text-sm text-github-text theme-text-muted leading-relaxed pt-2">
+                            Experiência sólida em ambientes de alta demanda operacional (Amazon) e gestão administrativa. Domínio avançado de Microsoft Excel para controle rígido de fluxos, cronogramas, indicadores operacionais e tomada de decisões baseada em dados.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] sm:-left-[41px] top-1 w-4 h-4 rounded-full bg-github-purple border-4 border-github-bg theme-border group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="bg-github-card theme-bg-card rounded-xl p-5 border border-github-border theme-border space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h3 class="font-bold text-lg text-white theme-text-main">Graduação em Engenharia de Software</h3>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-github-purple/10 text-github-purple font-semibold">Em Andamento</span>
+                        </div>
+                        <p class="text-sm text-github-text theme-text-muted leading-relaxed pt-2">
+                            Formação acadêmica focada na fundamentação teórica de estruturas de dados, algoritmos, arquitetura de computadores, engenharia de requisitos e ciclo de vida de desenvolvimento de software.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto border-t border-github-border theme-border bg-github-card/50 theme-bg-card py-8 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-github-muted theme-text-muted">
+            <div class="flex items-center gap-2">
+                <span>© 2026 Jonas Da Silva Santos.</span>
+                <span class="hidden sm:inline">•</span>
+                <span class="hidden sm:inline">Construído com HTML5 & CSS3</span>
+            </div>
+
+            <div class="flex items-center gap-6 text-base">
+                <a href="https://github.com/jontechads-sys" target="_blank" rel="noopener noreferrer" class="hover:text-github-blue transition-colors" title="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="mailto:jontechads@gmail.com" class="hover:text-github-blue transition-colors" title="E-mail">
+                    <i class="fa-regular fa-envelope"></i>
+                </a>
+                <a href="https://github.com/jontechads-sys/painel-de-mobilidade" target="_blank" rel="noopener noreferrer" class="hover:text-github-blue transition-colors" title="Repositório do Projeto">
+                    <i class="fa-solid fa-folder-git"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification for Clipboard Copy -->
+    <div id="toast" class="fixed bottom-6 right-6 translate-y-20 opacity-0 bg-github-green text-white font-mono text-xs px-4 py-3 rounded-lg shadow-2xl transition-all duration-300 flex items-center gap-2 z-50">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>E-mail copiado para a área de transferência!</span>
+    </div>
+
+    <!-- JavaScript para Toggle de Tema e Interações -->
+    <script>
+        // Toggle Theme Function
+        function toggleTheme() {
+            const htmlTag = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (htmlTag.classList.contains('dark')) {
+                htmlTag.classList.remove('dark');
+                htmlTag.classList.add('light');
+                themeIcon.classList.remove('fa-sun', 'text-amber-400');
+                themeIcon.classList.add('fa-moon', 'text-indigo-600');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlTag.classList.remove('light');
+                htmlTag.classList.add('dark');
+                themeIcon.classList.remove('fa-moon', 'text-indigo-600');
+                themeIcon.classList.add('fa-sun', 'text-amber-400');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Copy Email to Clipboard using execCommand fallback
+        function copyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Erro ao copiar texto', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
